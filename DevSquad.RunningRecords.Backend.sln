@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSquad.RunningRecords.Backend.Domain", "src\DevSquad.RunningRecords.Backend.Domain\DevSquad.RunningRecords.Backend.Domain.csproj", "{CCC3BE53-81DD-4311-B782-7D35C7D9C79D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSquad.RunningRecords.Backend.Domain", "src\DevSquad.RunningRecords.Backend.Domain\DevSquad.RunningRecords.Backend.Domain.csproj", "{CCC3BE53-81DD-4311-B782-7D35C7D9C79D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSquad.RunningRecords.Backend.Infrastructure", "src\DevSquad.RunningRecords.Backend.Infrastructure\DevSquad.RunningRecords.Backend.Infrastructure.csproj", "{55675729-D420-4857-903B-9C277683117C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSquad.RunningRecords.Backend.Infrastructure", "src\DevSquad.RunningRecords.Backend.Infrastructure\DevSquad.RunningRecords.Backend.Infrastructure.csproj", "{55675729-D420-4857-903B-9C277683117C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSquad.RunningRecords.Backend.Application", "src\DevSquad.RunningRecords.Backend.Application\DevSquad.RunningRecords.Backend.Application.csproj", "{6C319121-C8F0-4723-B476-253329183589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSquad.RunningRecords.Backend.Application", "src\DevSquad.RunningRecords.Backend.Application\DevSquad.RunningRecords.Backend.Application.csproj", "{6C319121-C8F0-4723-B476-253329183589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSquad.RunningRecords.Backend.Domain.Tests", "tests\DevSquad.RunningRecords.Backend.Domain.Tests\DevSquad.RunningRecords.Backend.Domain.Tests.csproj", "{FCDEAF4A-6091-448E-8C5E-A377F1DF0776}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSquad.RunningRecords.Backend.Domain.Tests", "tests\DevSquad.RunningRecords.Backend.Domain.Tests\DevSquad.RunningRecords.Backend.Domain.Tests.csproj", "{FCDEAF4A-6091-448E-8C5E-A377F1DF0776}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevSquad.RunningRecords.Backend.Api", "src\DevSquad.RunningRecords.Backend.Api\DevSquad.RunningRecords.Backend.Api.csproj", "{9272E439-B044-43B9-A2F4-F8929C557D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSquad.RunningRecords.Backend.Api", "src\DevSquad.RunningRecords.Backend.Api\DevSquad.RunningRecords.Backend.Api.csproj", "{9272E439-B044-43B9-A2F4-F8929C557D7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSquad.RunningRecords.Backend.Api.IntegrationTests", "tests\DevSquad.RunningRecords.Backend.Api.IntegrationTests\DevSquad.RunningRecords.Backend.Api.IntegrationTests.csproj", "{4C498F90-45E5-48F9-9B1C-5D28EC3EF853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{9272E439-B044-43B9-A2F4-F8929C557D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9272E439-B044-43B9-A2F4-F8929C557D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9272E439-B044-43B9-A2F4-F8929C557D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C498F90-45E5-48F9-9B1C-5D28EC3EF853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C498F90-45E5-48F9-9B1C-5D28EC3EF853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C498F90-45E5-48F9-9B1C-5D28EC3EF853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C498F90-45E5-48F9-9B1C-5D28EC3EF853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
