@@ -1,0 +1,138 @@
+trigger:
+- main
+
+variables:
+- group: Release-1.0.0.0 DevSquad.RunningRecords.Backend
+
+stages:
+- stage: continuous_integration
+  displayName: 'Continuous integration'
+  jobs:
+  
+  - job: build_validate
+    displayName: Build & Validate
+    
+    pool:
+      vmImage: windows-2022
+    
+    steps:
+
+    - task: UseDotNet@2
+      displayName: 'Install dotnet sdk 7.x'
+      inputs:
+        packageType: sdk
+        version: 7.x
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - task: DotNetCoreCLI@2
+      displayName: Restore dotnet dependencies
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Install Stryker'
+      inputs:
+        command: custom
+        includeNuGetOrg: true
+        custom: tool
+        arguments: update dotnet-stryker --tool-path $(Agent.BuildDirectory)/tools --version 3.10.0
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build'
+      inputs:
+        command: 'build'
+        projects: 'src/**.Api/**.Api.csproj'
+        arguments: '--no-restore'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Unit test'
+      inputs:
+        command: 'test'
+        projects: '**/*[Tt]est*/*.Tests.csproj'
+        arguments: '--configuration $(BuildConfiguration)  --collect "Code Coverage" --no-restore'
+
+    - task: Powershell@2
+      displayName: 'Mutation testing'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $(Agent.BuildDirectory)/tools/dotnet-stryker --test-project tests/DevSquad.RunningRecords.Backend.Domain.Tests --reporter "html"
+
+    - task: CmdLine@2
+      displayName: 'Dotnet list vulnerable package'
+      inputs:
+        script:  |
+          dotnet list package --vulnerable --include-transitive > packageVulnerabilities.log 2>&1
+          type packageVulnerabilities.log
+          findstr /i "critical" packageVulnerabilities.log > nul
+          if %errorlevel% equ 0 (
+              echo "##[warning]Has packages with critical vulnerabilities given current sources."
+              echo "##vso[task.complete result=SucceededWithIssues;]"
+          ) else (
+              echo Does not have packages with critical vulnerabilities given current sources.
+              exit /b 0
+          )
+
+    - task: CmdLine@2
+      displayName: 'Install project licences validator'
+      inputs:
+        script: |
+          dotnet tool install --global dotnet-project-licenses --ignore-failed-sources
+
+    - task: CmdLine@2
+      displayName: 'Run project licences validator'
+      inputs:
+        script: |
+          dotnet-project-licenses --input DevSquad.RunningRecords.Backend.sln > licenses.log 2>&1
+
+    - task: CmdLine@2
+      displayName: 'Validate AGPL or Open Software License'
+      inputs:
+        script: |
+          type licenses.log
+          findstr /i /C:"agpl" /C:"Open Software License" licenses.log > nul
+          if %errorlevel% equ 0 (
+              echo AGPL or Open source licenses were found in the current sources.
+              exit /b 1
+          ) else (
+              echo No AGPL or Open source licenses were found in the current sources.
+              exit /b 0
+          )
+
+    - task: CmdLine@2
+      displayName: 'Validate GPL'
+      inputs:
+        script: |
+          type licenses.log
+          findstr /i /C:"gpl" licenses.log > nul
+          if %errorlevel% equ 0 (
+              echo "##[warning]GPL licenses were found in the current sources, check manually."
+              echo "##vso[task.complete result=SucceededWithIssues;]"
+          ) else (
+              echo No GPL licenses were found in the current sources.
+              exit /b 0
+          )
+
+    - task: DotNetCoreCLI@2
+      displayName: Publish Api
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        arguments: '--no-restore --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        workingDirectory: '$(System.DefaultWorkingDirectory)/src/DevSquad.RunningRecords.Backend.Api'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish API Artifacts'
+      inputs:
+        ArtifactName: 'Artifacts'
+        PathtoPublish: '$(build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish deployment manifests'
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)/helm-charts'
+        ArtifactName: 'Manifests'
+        publishLocation: 'Container'
