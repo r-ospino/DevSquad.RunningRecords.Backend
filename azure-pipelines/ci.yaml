@@ -12,6 +12,11 @@ stages:
   - job: build_validate
     displayName: Build & Validate
 
+    pool:
+      name: Default
+      demands:
+      - agent.name -equals ALEJANDRO-OSPINO
+
     steps:
 
     - task: UseDotNet@2
