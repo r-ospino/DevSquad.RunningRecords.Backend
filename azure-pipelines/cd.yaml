@@ -1,0 +1,45 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ci
+    source: DevSquad.RunningRecords.Backend-CI
+
+variables:
+- group: BlockchainDER.Clientes.BackEnd
+
+stages:
+- stage: continuous_deployment
+  displayName: 'Continuous Deployment'
+  jobs:
+  
+  - deployment: build_validate
+    displayName: build image and deploy into k8s
+    
+    pool:
+      name: Default
+      demands:
+      - agent.name -equals ALEJANDRO-OSPINO
+    
+    strategy:
+      runOnce:
+        deploy: 
+          steps:
+          - task: DownloadBuildArtifacts@1
+            displayName: Download app atrifacts
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'Artifacts'
+              downloadPath: '$(System.DefaultWorkingDirectory)'
+          - task: Docker@2
+            displayName: Construcción y publicación de imágen Api
+            inputs:
+              containerRegistry: 'CR Microsoft Azure Enterprise Tecnologia DEV(288a11ea-938e-4b70-add7-cab8adf02dc5)'
+              repository: 'img-$(Build.Repository.Name)-Api'
+              command: 'buildAndPush'
+              Dockerfile: 'src/Celsia.BlockchainDER.Clientes.BackEnd.Api/Dockerfile'
+              buildContext: '$(System.DefaultWorkingDirectory)'
+              tags: |
+                latest
+                $(Build.BuildId)
