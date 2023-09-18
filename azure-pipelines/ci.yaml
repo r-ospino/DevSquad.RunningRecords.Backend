@@ -47,12 +47,12 @@ stages:
         projects: 'src/**.Api/**.Api.csproj'
         arguments: '--no-restore'
 
-    #- task: DotNetCoreCLI@2
-    #  displayName: 'Unit test'
-    #  inputs:
-    #    command: 'test'
-    #    projects: '**/*[Tt]est*/*.Tests.csproj'
-    #    arguments: '--configuration $(BuildConfiguration)  --collect "Code Coverage" --no-restore'
+    - task: DotNetCoreCLI@2
+      displayName: 'Unit test'
+      inputs:
+        command: 'test'
+        projects: '**/*[Tt]est*/*.Tests.csproj'
+        arguments: '--configuration $(BuildConfiguration)  --collect "Code Coverage" --no-restore'
 
     #- task: Powershell@2
     #  displayName: 'Mutation testing'
