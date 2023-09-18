@@ -68,13 +68,14 @@ stages:
           dotnet list package --vulnerable --include-transitive > packageVulnerabilities.log 2>&1
           type packageVulnerabilities.log
           grep /i "critical" packageVulnerabilities.log > nul
-          if %errorlevel% equ 0 (
+          if [$errorlevel -eq 0] 
+          then
               echo "##[warning]Has packages with critical vulnerabilities given current sources."
               echo "##vso[task.complete result=SucceededWithIssues;]"
-          ) else (
+          else
               echo Does not have packages with critical vulnerabilities given current sources.
               exit /b 0
-          )
+          fi
 
     - task: CmdLine@2
       displayName: 'Install project licences validator'
@@ -94,13 +95,14 @@ stages:
         script: |
           type licenses.log
           grep /i /C:"agpl" /C:"Open Software License" licenses.log > nul
-          if %errorlevel% equ 0 (
+          if [$errorlevel -eq 0]
+          then
               echo AGPL or Open source licenses were found in the current sources.
               exit /b 1
-          ) else (
+          else
               echo No AGPL or Open source licenses were found in the current sources.
               exit /b 0
-          )
+          fi
 
     - task: CmdLine@2
       displayName: 'Validate GPL'
@@ -108,13 +110,14 @@ stages:
         script: |
           type licenses.log
           grep /i /C:"gpl" licenses.log > nul
-          if %errorlevel% equ 0 (
+          if [$errorlevel -eq 0]
+          then
               echo "##[warning]GPL licenses were found in the current sources, check manually."
               echo "##vso[task.complete result=SucceededWithIssues;]"
-          ) else (
+          else
               echo No GPL licenses were found in the current sources.
               exit /b 0
-          )
+          fi
 
     - task: DotNetCoreCLI@2
       displayName: Publish Api
