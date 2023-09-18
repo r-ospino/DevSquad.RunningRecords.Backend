@@ -67,7 +67,7 @@ stages:
         script:  |
           dotnet list package --vulnerable --include-transitive > packageVulnerabilities.log 2>&1
           type packageVulnerabilities.log
-          findstr /i "critical" packageVulnerabilities.log > nul
+          grep /i "critical" packageVulnerabilities.log > nul
           if %errorlevel% equ 0 (
               echo "##[warning]Has packages with critical vulnerabilities given current sources."
               echo "##vso[task.complete result=SucceededWithIssues;]"
@@ -93,7 +93,7 @@ stages:
       inputs:
         script: |
           type licenses.log
-          findstr /i /C:"agpl" /C:"Open Software License" licenses.log > nul
+          grep /i /C:"agpl" /C:"Open Software License" licenses.log > nul
           if %errorlevel% equ 0 (
               echo AGPL or Open source licenses were found in the current sources.
               exit /b 1
@@ -107,7 +107,7 @@ stages:
       inputs:
         script: |
           type licenses.log
-          findstr /i /C:"gpl" licenses.log > nul
+          grep /i /C:"gpl" licenses.log > nul
           if %errorlevel% equ 0 (
               echo "##[warning]GPL licenses were found in the current sources, check manually."
               echo "##vso[task.complete result=SucceededWithIssues;]"
