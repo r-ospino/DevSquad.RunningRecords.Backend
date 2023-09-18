@@ -30,6 +30,7 @@ stages:
             displayName: Download app atrifacts
             inputs:
               buildType: 'specific'
+              project: 'DevSquad.RunningRecords.Backend'
               pipeline: 'ci'
               downloadType: 'single'
               artifactName: 'Artifacts'
