@@ -32,6 +32,8 @@ stages:
               buildType: 'specific'
               project: 'DevSquad.RunningRecords.Backend'
               pipeline: 'ci'
+              specificBuildWithTriggering: true
+              buildVersionToDownload: 'latest'
               downloadType: 'single'
               artifactName: 'Artifacts'
               downloadPath: '$(System.DefaultWorkingDirectory)'
