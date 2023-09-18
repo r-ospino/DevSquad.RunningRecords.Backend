@@ -42,9 +42,6 @@ stages:
           - task: HelmDeploy@0
             displayName: "Helm upgrade"
             inputs:
-              azureContainerRegistry: acrnuevodemo
-              azureResourceGroupForACR: rg-nuevo-demo
-              azureSubscriptionForACR: 'd6ba570b-67e9-42bc-bafd-d85070e4a5e5'
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceConnection: '$(kubernetesSC)'
               namespace: '$(kubernetesNamespace)'
@@ -55,3 +52,5 @@ stages:
               valueFile: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api/values.yaml'
               arguments: '--set image.repository=img-r-ospino/devsquad.runningrecords.backend-api --set image.tag=latest'
               failOnStderr: true
+            
+          
