@@ -32,6 +32,7 @@ stages:
               downloadType: 'single'
               artifactName: 'Artifacts'
               downloadPath: '$(System.DefaultWorkingDirectory)'
+              
           - task: Docker@2
             displayName: Docker Build & Push
             inputs:
