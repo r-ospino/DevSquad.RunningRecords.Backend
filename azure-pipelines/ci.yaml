@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-- group: Release-1.0.0.0 DevSquad.RunningRecords.Backend
+- group: DevSquad.RunningRecords.Backend
 
 stages:
 - stage: continuous_integration
