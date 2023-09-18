@@ -80,8 +80,7 @@ stages:
     - task: CmdLine@2
       displayName: 'Install project licences validator'
       inputs:
-        script: |
-          dotnet tool install --global dotnet-project-licenses --ignore-failed-sources
+        script: 'dotnet tool update --global dotnet-project-licenses --ignore-failed-sources'
 
     - task: CmdLine@2
       displayName: 'Run project licences validator'
