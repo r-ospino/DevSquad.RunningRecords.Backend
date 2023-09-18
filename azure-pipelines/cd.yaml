@@ -6,7 +6,7 @@ resources:
     source: DevSquad.RunningRecords.Backend-CI
 
 variables:
-- group: BlockchainDER.Clientes.BackEnd
+- group: DevSquad.RunningRecords.Backend
 
 stages:
 - stage: continuous_deployment
