@@ -121,6 +121,11 @@ stages:
         modifyOutputPath: false
         workingDirectory: '$(System.DefaultWorkingDirectory)/src/DevSquad.RunningRecords.Backend.Api'
 
+    - script: |
+        cp 'Dockerfile' '$(build.ArtifactStagingDirectory)'
+      displayName: 'Copy Dockerfile to artifacts'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/src/DevSquad.RunningRecords.Backend.Api'
+
     - task: PublishBuildArtifacts@1
       displayName: 'Publish API Artifacts'
       inputs:
@@ -133,3 +138,4 @@ stages:
         PathtoPublish: '$(Build.SourcesDirectory)/helm-charts'
         ArtifactName: 'Manifests'
         publishLocation: 'Container'
+

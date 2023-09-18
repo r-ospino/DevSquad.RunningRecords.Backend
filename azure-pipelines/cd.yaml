@@ -1,0 +1,46 @@
+trigger: none
+
+variables:
+- group: DevSquad.RunningRecords.Backend
+
+stages:
+- stage: continuous_deployment
+  displayName: 'Continuous Deployment'
+  jobs:
+  
+  - deployment: build_validate
+    displayName: build image and deploy into k8s
+    environment: $(Environment)
+    
+    pool:
+      name: Default
+      demands:
+      - agent.name -equals ALEJANDRO-OSPINO
+    
+    strategy:
+      runOnce:
+        deploy: 
+          steps:
+          - task: DownloadBuildArtifacts@1
+            displayName: Download app atrifacts
+            inputs:
+              buildType: 'specific'
+              project: 'DevSquad.RunningRecords.Backend'
+              pipeline: 'DevSquad.RunningRecords.Backend-CI'
+              specificBuildWithTriggering: true
+              buildVersionToDownload: 'latest'
+              downloadType: 'single'
+              artifactName: 'Artifacts'
+              downloadPath: '$(System.DefaultWorkingDirectory)'
+              
+          - task: Docker@2
+            displayName: Docker Build & Push
+            inputs:
+              containerRegistry: '$(dockerRegistrySC)'
+              repository: 'img-$(Build.Repository.Name)-Api'
+              command: 'buildAndPush'
+              Dockerfile: 'Artifacts/Dockerfile'
+              buildContext: '$(System.DefaultWorkingDirectory)'
+              tags: |
+                latest
+                $(Build.BuildId)
