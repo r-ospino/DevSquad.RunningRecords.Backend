@@ -26,17 +26,6 @@ stages:
       runOnce:
         deploy: 
           steps:
-          - task: DownloadBuildArtifacts@1
-            displayName: Download app atrifacts
-            inputs:
-              buildType: 'specific'
-              project: 'DevSquad.RunningRecords.Backend'
-              pipeline: 'DevSquad.RunningRecords.Backend-CI'
-              specificBuildWithTriggering: true
-              buildVersionToDownload: 'latest'
-              downloadType: 'single'
-              artifactName: 'Artifacts'
-              downloadPath: '$(System.DefaultWorkingDirectory)'
               
           - task: Docker@2
             displayName: Docker Build & Push
@@ -44,7 +33,7 @@ stages:
               containerRegistry: '$(dockerRegistrySC)'
               repository: 'img-$(Build.Repository.Name)-Api'
               command: 'buildAndPush'
-              Dockerfile: 'Artifacts/Dockerfile'
+              Dockerfile: 'ci/Artifacts/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
               tags: |
                 latest
@@ -58,8 +47,8 @@ stages:
               namespace: '$(kubernetesNamespace)'
               command: 'upgrade'
               chartType: 'FilePath'
-              chartPath: '$(System.DefaultWorkingDirectory)/DevSquad.RunningRecords.Backend-CI/Manifests/running-records-api'
+              chartPath: '$(System.DefaultWorkingDirectory)/ci/Manifests/running-records-api'
               releaseName: 'running-records-api'
-              valueFile: '$(System.DefaultWorkingDirectory)/DevSquad.RunningRecords.Backend-CI/Manifests/running-records-api/values.dev.yaml'
+              valueFile: '$(System.DefaultWorkingDirectory)/ci/Manifests/running-records-api/values.dev.yaml'
               arguments: '--set image.repository=img-celsia.blockchainder.clientes.backend-api --set image.tag=latest'
               failOnStderr: true
