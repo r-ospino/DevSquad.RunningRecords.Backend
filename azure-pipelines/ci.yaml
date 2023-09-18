@@ -67,7 +67,7 @@ stages:
         script:  |
           dotnet list package --vulnerable --include-transitive > packageVulnerabilities.log 2>&1
           cat packageVulnerabilities.log
-          grep /i "critical" packageVulnerabilities.log > nul
+          grep /i "critical" packageVulnerabilities.log > /dev/null
           if [$? -eq 0] 
           then
               echo "##[warning]Has packages with critical vulnerabilities given current sources."
@@ -94,7 +94,7 @@ stages:
       inputs:
         script: |
           cat licenses.log
-          grep /i /C:"agpl" /C:"Open Software License" licenses.log > nul
+          grep /i /C:"agpl" /C:"Open Software License" licenses.log > /dev/null
           if [$errorlevel -eq 0]
           then
               echo AGPL or Open source licenses were found in the current sources.
@@ -109,7 +109,7 @@ stages:
       inputs:
         script: |
           cat licenses.log
-          grep /i /C:"gpl" licenses.log > nul
+          grep /i /C:"gpl" licenses.log > /dev/null
           if [$errorlevel -eq 0]
           then
               echo "##[warning]GPL licenses were found in the current sources, check manually."
