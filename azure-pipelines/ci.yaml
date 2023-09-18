@@ -122,9 +122,9 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/src/DevSquad.RunningRecords.Backend.Api'
 
     - script: |
-        cp '$(Build.SourcesDirectory)/src/DevSquad.RunningRecords.Backend.Api/Dockerfile' $(build.ArtifactStagingDirectory)
+        cp 'Dockerfile' $(build.ArtifactStagingDirectory)
       displayName: 'Copy Dockerfile to artifacts'
-      workingDirectory: ${{ project.directory }}
+      workingDirectory: '$(System.DefaultWorkingDirectory)/src/DevSquad.RunningRecords.Backend.Api'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish API Artifacts'
