@@ -49,6 +49,6 @@ stages:
               chartType: 'FilePath'
               chartPath: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api'
               releaseName: 'running-records-api'
-              valueFile: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api/values.dev.yaml'
-              arguments: '--set image.repository=img-celsia.blockchainder.clientes.backend-api --set image.tag=latest'
+              valueFile: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api/values.yaml'
+              arguments: '--set image.repository=img-r-ospino/devsquad.runningrecords.backend-api --set image.tag=latest'
               failOnStderr: true
