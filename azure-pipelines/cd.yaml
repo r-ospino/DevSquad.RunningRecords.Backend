@@ -15,6 +15,7 @@ stages:
   
   - deployment: build_validate
     displayName: build image and deploy into k8s
+    environment: $(Environment)
     
     pool:
       name: Default
@@ -38,7 +39,7 @@ stages:
               containerRegistry: 'CR Microsoft Azure Enterprise Tecnologia DEV(288a11ea-938e-4b70-add7-cab8adf02dc5)'
               repository: 'img-$(Build.Repository.Name)-Api'
               command: 'buildAndPush'
-              Dockerfile: 'src/Celsia.BlockchainDER.Clientes.BackEnd.Api/Dockerfile'
+              Dockerfile: 'src/DevSquad.RunningRecords.Backend.Api/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
               tags: |
                 latest
