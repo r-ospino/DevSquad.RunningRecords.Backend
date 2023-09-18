@@ -11,10 +11,7 @@ stages:
   
   - job: build_validate
     displayName: Build & Validate
-    
-    pool:
-      vmImage: windows-2022
-    
+
     steps:
 
     - task: UseDotNet@2
