@@ -42,6 +42,8 @@ stages:
           - task: HelmDeploy@0
             displayName: "Helm upgrade"
             inputs:
+              azureContainerRegistry: acrnuevodemo
+              azureResourceGroupForACR: rg-nuevo-demo
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceConnection: '$(kubernetesSC)'
               namespace: '$(kubernetesNamespace)'
