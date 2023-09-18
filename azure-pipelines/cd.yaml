@@ -33,7 +33,7 @@ stages:
               artifactName: 'Artifacts'
               downloadPath: '$(System.DefaultWorkingDirectory)'
           - task: Docker@2
-            displayName: Construcción y publicación de imágen Api
+            displayName: Docker Build & Push
             inputs:
               containerRegistry: '$(dockerRegistrySC)'
               repository: 'img-$(Build.Repository.Name)-Api'
