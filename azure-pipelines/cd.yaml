@@ -1,5 +1,10 @@
 trigger: none
 
+resources:
+  pipelines:
+  - pipeline: ci
+    source: DevSquad.RunningRecords.Backend-CI
+
 variables:
 - group: DevSquad.RunningRecords.Backend
 
