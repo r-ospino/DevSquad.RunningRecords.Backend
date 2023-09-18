@@ -66,9 +66,9 @@ stages:
       inputs:
         script:  |
           dotnet list package --vulnerable --include-transitive > packageVulnerabilities.log 2>&1
-          type packageVulnerabilities.log
+          cat packageVulnerabilities.log
           grep /i "critical" packageVulnerabilities.log > nul
-          if [$errorlevel -eq 0] 
+          if [$? -eq 0] 
           then
               echo "##[warning]Has packages with critical vulnerabilities given current sources."
               echo "##vso[task.complete result=SucceededWithIssues;]"
