@@ -38,7 +38,7 @@ stages:
               containerRegistry: '$(dockerRegistrySC)'
               repository: 'img-$(Build.Repository.Name)-Api'
               command: 'buildAndPush'
-              Dockerfile: 'Dockerfile'
+              Dockerfile: 'Artifacts/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
               tags: |
                 latest
