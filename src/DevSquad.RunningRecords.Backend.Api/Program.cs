@@ -15,6 +15,5 @@ builder.Services.AddDbContext<RunningContext>(opt => opt.UseSqlite(""));
 var app = builder.Build();
 app.UseAuthorization();
 app.UseFastEndpoints();
-//app.MapGet("/", () => "Hello World!");
 
 app.Run();
