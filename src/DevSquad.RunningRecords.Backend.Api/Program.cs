@@ -14,12 +14,18 @@ builder.Services.AddFastEndpoints();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RecordARunCommand>());
 
 builder.Services.AddScoped<IRunningRecordRepository, RunningRecordsRepository>();
-builder.Services.AddDbContext<RunningContext>(opt => opt.UseSqlite(""));
+builder.Services.AddDbContext<RunningContext>(opt => opt.UseSqlite("MyDatabase"));
+
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<RunningContext>();
 
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();
 app.UseAuthorization();
+app.MapHealthChecks("/health/startup");
+app.MapHealthChecks("/health/live");
+app.MapHealthChecks("/health/ready");
 app.UseFastEndpoints();
 
 app.Run();
