@@ -8,7 +8,7 @@ resources:
 variables:
 - group: DevSquad.RunningRecords.Backend
 - name: imageRepository
-  value: ${{split($(Build.Repository.Name), '/')[-1]}}
+  value: ${{split(Build.Repository.Name, '/')[-1]}}
   readonly: true
 
 stages:
