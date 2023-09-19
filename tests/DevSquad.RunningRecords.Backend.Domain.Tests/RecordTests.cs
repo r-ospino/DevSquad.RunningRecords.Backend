@@ -8,9 +8,10 @@ namespace DevSquad.RunningRecords.Backend.Domain.Tests;
 public class RecordTests
 {
     [Theory, InlineAutoData]
-    public void Constructor_ShouldSetPropertiesCorrectly(DateTime date, TimeSpan duration, Distance distance, int steps)
+    public void Constructor_ShouldSetPropertiesCorrectly(DateTime date, int minutes, Distance distance, int steps)
     {
         // Act
+        var duration = TimeSpan.FromMinutes(minutes);
         var record = new Record(date, duration, distance, steps);
 
         // Assert
