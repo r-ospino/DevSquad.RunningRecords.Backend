@@ -10,7 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FastEndpoints" Version="5.17.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevSquad.RunningRecords.Backend.Application\DevSquad.RunningRecords.Backend.Application.csproj" />
+    <ProjectReference Include="..\DevSquad.RunningRecords.Backend.Infrastructure\DevSquad.RunningRecords.Backend.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
