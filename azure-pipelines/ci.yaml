@@ -45,14 +45,14 @@ stages:
       inputs:
         command: 'build'
         projects: 'src/**.Api/**.Api.csproj'
-        arguments: '--no-restore'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Unit test'
       inputs:
         command: 'test'
         projects: '**/*[Tt]est*/*.Tests.csproj'
-        arguments: '--configuration $(BuildConfiguration)  --collect "Code Coverage" --no-restore'
+        arguments: '--configuration $(buildConfiguration) --collect "Code Coverage" --no-restore'
 
     - task: CmdLine@2
       displayName: 'Dotnet list vulnerable package'
@@ -116,7 +116,7 @@ stages:
       inputs:
         command: 'publish'
         publishWebProjects: false
-        arguments: '--no-restore --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+        arguments: '--no-restore --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
         zipAfterPublish: false
         modifyOutputPath: false
         workingDirectory: '$(System.DefaultWorkingDirectory)/src/DevSquad.RunningRecords.Backend.Api'
