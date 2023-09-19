@@ -5,10 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  registryName: docker.io
+  repository: running-records-repository
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""

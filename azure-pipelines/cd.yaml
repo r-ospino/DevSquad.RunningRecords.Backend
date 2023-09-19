@@ -1,5 +1,10 @@
 trigger: none
 
+resources:
+  pipelines:
+  - pipeline: ci
+    source: DevSquad.RunningRecords.Backend-CI
+
 variables:
 - group: DevSquad.RunningRecords.Backend
 
@@ -21,26 +26,31 @@ stages:
       runOnce:
         deploy: 
           steps:
-          - task: DownloadBuildArtifacts@1
-            displayName: Download app atrifacts
-            inputs:
-              buildType: 'specific'
-              project: 'DevSquad.RunningRecords.Backend'
-              pipeline: 'DevSquad.RunningRecords.Backend-CI'
-              specificBuildWithTriggering: true
-              buildVersionToDownload: 'latest'
-              downloadType: 'single'
-              artifactName: 'Artifacts'
-              downloadPath: '$(System.DefaultWorkingDirectory)'
               
           - task: Docker@2
             displayName: Docker Build & Push
             inputs:
               containerRegistry: '$(dockerRegistrySC)'
-              repository: 'img-$(Build.Repository.Name)-Api'
+              repository: '$(dockerRepository)'
               command: 'buildAndPush'
-              Dockerfile: 'Artifacts/Dockerfile'
+              Dockerfile: '../ci/Artifacts/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
               tags: |
                 latest
                 $(Build.BuildId)
+          
+          - task: HelmDeploy@0
+            displayName: "Helm upgrade"
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '$(kubernetesSC)'
+              namespace: '$(kubernetesNamespace)'
+              command: 'upgrade'
+              chartType: 'FilePath'
+              chartPath: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api'
+              releaseName: 'running-records-api'
+              valueFile: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api/values.yaml'
+              arguments: '--set image.registryName=$(dockerRegistry) --set image.repository=$(dockerRepository)'
+              failOnStderr: true
+            
+          
