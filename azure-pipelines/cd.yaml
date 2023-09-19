@@ -34,7 +34,6 @@ stages:
               repository: '$(dockerRepository)'
               command: 'buildAndPush'
               Dockerfile: '../ci/Artifacts/Dockerfile'
-              buildContext: '$(System.DefaultWorkingDirectory)'
               tags: |
                 latest
                 $(Build.BuildId)
@@ -50,7 +49,7 @@ stages:
               chartPath: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api'
               releaseName: 'running-records-api'
               valueFile: '$(System.DefaultWorkingDirectory)/../ci/Manifests/running-records-api/values.yaml'
-              arguments: '--set image.registryName=$(dockerRegistry) --set image.repository=$(dockerRepository)'
+              arguments: '--set image.registryName=$(dockerRegistry) --set image.repository=$(dockerRepository) --set image.tag=$(Build.BuildId) --set version=$(Build.BuildId)'
               failOnStderr: true
             
           
