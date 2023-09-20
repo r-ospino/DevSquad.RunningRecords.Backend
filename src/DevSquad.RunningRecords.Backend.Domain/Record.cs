@@ -1,30 +1,44 @@
-﻿using Throw;
+﻿using System.Diagnostics.CodeAnalysis;
+using Throw;
 
 namespace DevSquad.RunningRecords.Backend.Domain;
 
 public class Record
 {
+    private TimeSpan _duration;
+    private int _steps;
+    private DateTime _date;
+
+    public Record()
+    { }
+
+    [SetsRequiredMembers]
     public Record(DateTime date, TimeSpan duration, Distance distance, int steps)
-    {
-        Date = date;
-        Duration = duration.Throw().IfNegativeOrZero();
-        Distance = distance;
-        Steps = steps;
-        AveragePace = Pace.From(duration, distance);
-        AverageSpeed = Speed.From(AveragePace);
-    }
+        => (Date, Duration, Distance, Steps) = (date, duration, distance, steps);
 
     public Guid Id { get; private set; }
- 
-    public DateTime Date { get; }
 
-    public TimeSpan Duration { get; }
+    public required DateTime Date
+    {
+        get => _date;
+        set => _date = value.Throw().IfGreaterThanOrEqualTo(DateTime.Now);
+    }
 
-    public Distance Distance { get; }
+    public required TimeSpan Duration
+    {
+        get => _duration;
+        set => _duration = value.Throw().IfNegativeOrZero();
+    }
 
-    public int Steps { get; }
+    public required Distance Distance { get; set; }
 
-    public Pace AveragePace { get; }
+    public required int Steps
+    {
+        get => _steps;
+        set => _steps = value.Throw().IfNegativeOrZero();
+    }
 
-    public Speed AverageSpeed { get; }
+    public Pace AveragePace => Pace.From(Duration, Distance);
+
+    public Speed AverageSpeed => Speed.From(AveragePace);
 }

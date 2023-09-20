@@ -20,7 +20,7 @@ public class RecordARunHandler : IRequestHandler<RecordARunCommand>
         var steps = request.Steps.ThrowIfNull();
         var distanceMagnitude = request.DistanceMagnitude.ThrowIfNull();
 
-        TimeSpan duration = startDate.Value.Subtract(endDate);
+        TimeSpan duration = endDate.Value.Subtract(startDate);
         Enum.TryParse<DistanceUnits>(request.DistanceUnit, true, out var unit);
         
         Distance distance = new(distanceMagnitude, unit);

@@ -16,8 +16,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Re
 builder.Services.AddScoped<IRunningRecordRepository, RunningRecordsRepository>();
 builder.Services.AddDbContext<RunningContext>(opt => opt.UseSqlite("MyDatabase"));
 
-builder.Services.AddHealthChecks()
-    .AddDbContextCheck<RunningContext>();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
