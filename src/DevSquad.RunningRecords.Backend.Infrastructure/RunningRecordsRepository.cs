@@ -22,4 +22,7 @@ public class RunningRecordsRepository : IRunningRecordRepository
 
     public Task UpdateAsync(Record entity, CancellationToken cancellationToken = default)
         => Task.FromResult(_context.RunningRecords.Update(entity));
+
+    public Task DeleteAsync(Record entity, CancellationToken cancellationToken = default)
+        => Task.FromResult(_context.Remove(entity));
 }
