@@ -8,6 +8,7 @@ namespace DevSquad.RunningRecords.Backend.Infrastructure.Context
     {
         public void Configure(EntityTypeBuilder<Record> builder)
         {
+            builder.OwnsOne(record => record.Distance);
         }
     }
 }
