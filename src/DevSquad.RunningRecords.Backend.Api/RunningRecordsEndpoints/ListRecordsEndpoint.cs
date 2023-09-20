@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DevSquad.RunningRecords.Backend.Api.RunningRecordsEndpoints;
 
-[HttpPost("/api/run")]
+[HttpGet("/api/run")]
 [AllowAnonymous]
-public class RecordARunEndpoint : Endpoint<RecordARunCommand>
+public class ListRecordsEndpoint : Endpoint<ListRecordsCommand, IAsyncEnumerable<RecordDto>>
 {
     private readonly IMediator _mediator;
 
-    public RecordARunEndpoint(IMediator mediator)
+    public ListRecordsEndpoint(IMediator mediator)
     {
         _mediator = mediator;
     }
 
-    public override Task HandleAsync(RecordARunCommand req, CancellationToken ct)
+    public override async Task HandleAsync(ListRecordsCommand req, CancellationToken ct)
     {
-        return _mediator.Send(req, ct);
+        await SendAsync(_mediator.CreateStream(req, ct), cancellation: ct);
     }
 }
