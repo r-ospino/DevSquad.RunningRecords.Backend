@@ -15,7 +15,7 @@ public class RunningRecordsRepository : IRunningRecordRepository
         => _context.RunningRecords.AsAsyncEnumerable();
 
     public Task<Record?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => _context.RunningRecords.FirstOrDefaultAsync(cancellationToken);
+        => _context.RunningRecords.FirstOrDefaultAsync(record => record.Id == id, cancellationToken);
 
     public async Task AddAsync(Record entity, CancellationToken cancellationToken = default)
         => await _context.RunningRecords.AddAsync(entity, cancellationToken);
