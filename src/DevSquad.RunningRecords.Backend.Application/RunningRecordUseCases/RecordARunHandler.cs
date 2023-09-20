@@ -6,14 +6,16 @@ namespace DevSquad.RunningRecords.Backend.Application.RunningRecordUseCases;
 
 public class RecordARunHandler : IRequestHandler<RecordARunCommand>
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IRunningRecordRepository _repository;
 
-    public RecordARunHandler(IRunningRecordRepository repository)
+    public RecordARunHandler(IUnitOfWork unitOfWork, IRunningRecordRepository repository)
     {
+        _unitOfWork = unitOfWork;
         _repository = repository;
     }
 
-    public Task Handle(RecordARunCommand request, CancellationToken cancellationToken)
+    public async Task Handle(RecordARunCommand request, CancellationToken cancellationToken)
     {
         var startDate = request.StartDate.ThrowIfNull();
         var endDate = request.EndDate.ThrowIfNull().IfLessThanOrEqualTo(startDate);
@@ -25,6 +27,8 @@ public class RecordARunHandler : IRequestHandler<RecordARunCommand>
         
         Distance distance = new(distanceMagnitude, unit);
         Record activity = new(startDate, duration, distance, steps);
-        return _repository.AddAsync(activity, cancellationToken);
+        await _repository.AddAsync(activity, cancellationToken);
+
+        await _unitOfWork.CommitAsync();
     }
 }

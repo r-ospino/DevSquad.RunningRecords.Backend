@@ -15,6 +15,7 @@ builder.Services.AddAutoMapper(typeof(RecordMapperProfile).Assembly);
 builder.Services.AddFastEndpoints();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RecordARunCommand>());
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRunningRecordRepository, RunningRecordsRepository>();
 builder.Services.AddDbContext<RunningContext>(opt => opt.UseSqlite("Data Source=LocalDatabase.db"));
 
