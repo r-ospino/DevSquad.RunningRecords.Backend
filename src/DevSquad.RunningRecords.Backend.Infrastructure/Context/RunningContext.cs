@@ -6,7 +6,9 @@ namespace DevSquad.RunningRecords.Backend.Infrastructure.Context
     public class RunningContext : DbContext
     {
         public RunningContext(DbContextOptions<RunningContext> options) : base(options)
-        { }
+        { 
+            Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
