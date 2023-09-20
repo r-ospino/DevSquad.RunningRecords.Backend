@@ -9,4 +9,6 @@ public interface IRunningRecordRepository
     Task AddAsync(Record entity, CancellationToken cancellationToken = default);
 
     Task UpdateAsync(Record entity, CancellationToken cancellationToken = default);
+
+    Task DeleteAsync(Record entity, CancellationToken cancellationToken = default);
 }
